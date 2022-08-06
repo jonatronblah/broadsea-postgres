@@ -3,12 +3,15 @@ version: '3.8'
 services:
 
   broadsea-methods-library:
-    image: ohdsi/broadsea-methodslibrary
+    build:
+      context: .
+    env_file:
+      - ./.env
     ports:
       - "8787:8787"
       - "6311:6311"
-    environment:
-      - PASSWORD=mypass
+    volumes:
+      - ./files:/home/rstudio
 
   broadsea-webtools:
     image: ohdsi/broadsea-webtools
@@ -18,36 +21,41 @@ services:
      - .:/tmp/drivers/:ro
      - ./config-local.js:/usr/local/tomcat/webapps/atlas/js/config-local.js:ro
     environment:
-      - WEBAPI_URL=http://192.168.99.100:8080
+      - WEBAPI_URL=http://192.168.1.36:8080
       - env=webapi-postgresql
       - security_enabled=false
       - security_origin=*
       - datasource_driverClassName=org.postgresql.Driver
-      - datasource_url=jdbc:postgresql://192.168.99.100:5432/secret-database-name
+      - datasource_url=jdbc:postgresql://db:5432/db
       - datasource.cdm.schema=cdm
       - datasource.ohdsi.schema=ohdsi
-      - datasource_username=secret-user-name
-      - datasource_password=secret-user-password
+      - datasource_username=grover
+      - datasource_password=babybun
       - spring.jpa.properties.hibernate.default_schema=ohdsi
       - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
       - spring.batch.repository.tableprefix=ohdsi.BATCH_
       - flyway_datasource_driverClassName=org.postgresql.Driver
-      - flyway_datasource_url=jdbc:postgresql://192.168.99.100:5432/secret-database-name
+      - flyway_datasource_url=jdbc:postgresql://db:5432/db
       - flyway_schemas=ohdsi
       - flyway.placeholders.ohdsiSchema=ohdsi
-      - flyway_datasource_username=secret-user-name
-      - flyway_datasource_password=secret-user-password
+      - flyway_datasource_username=grover
+      - flyway_datasource_password=babybun
       - flyway.locations=classpath:db/migration/postgresql
 
   db:
     image: postgres:13.3-alpine
+    shm_size: 1g
     env_file:
       - ./.env
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      - ./files/scripts:/scripts
 
-  r:
-    image: rocker/tidyverse:latest
-  
 volumes:
   postgres_data:
+
+
+
+
+
+

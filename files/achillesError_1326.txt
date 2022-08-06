@@ -1,0 +1,129 @@
+DBMS:
+postgresql
+
+Error:
+org.postgresql.util.PSQLException: ERROR: could not resize shared memory segment "/PostgreSQL.170705604" to 4194304 bytes: No space left on device
+
+SQL:
+CREATE TEMP TABLE s_tmpach_1326
+
+AS
+SELECT
+1326 AS analysis_id,
+	CAST(v.visit_detail_concept_id AS VARCHAR(255)) AS stratum_1,
+	v.cdm_table AS stratum_2,
+	CAST(NULL AS VARCHAR(255)) AS stratum_3,
+	CAST(NULL AS VARCHAR(255)) AS stratum_4,
+	CAST(NULL AS VARCHAR(255)) AS stratum_5,
+	v.record_count AS count_value
+
+FROM
+(
+	SELECT 'drug_exposure' cdm_table,
+		COALESCE(vd.visit_detail_concept_id, 0) visit_detail_concept_id,
+		COUNT(*) record_count
+	FROM 
+		cdm.drug_exposure de
+	LEFT JOIN 
+		cdm.visit_detail vd 
+	ON 
+		de.visit_occurrence_id = vd.visit_occurrence_id
+	GROUP BY 
+		vd.visit_detail_concept_id
+	
+	UNION
+	
+	SELECT 
+		'condition_occurrence' cdm_table,
+		COALESCE(vd.visit_detail_concept_id, 0) visit_detail_concept_id,
+		COUNT(*) record_count
+	FROM 
+		cdm.condition_occurrence co
+	LEFT JOIN 
+		cdm.visit_detail vd 
+	ON 
+		co.visit_occurrence_id = vd.visit_occurrence_id
+	GROUP BY 
+		vd.visit_detail_concept_id
+
+	UNION
+
+	SELECT 
+		'device_exposure' cdm_table,
+		COALESCE(visit_detail_concept_id, 0) visit_detail_concept_id,
+		COUNT(*) record_count
+	FROM 
+		cdm.device_exposure de
+	LEFT JOIN 
+		cdm.visit_detail vd 
+	ON 
+		de.visit_occurrence_id = vd.visit_occurrence_id
+	GROUP BY 
+		vd.visit_detail_concept_id
+
+	UNION
+
+	SELECT 
+		'procedure_occurrence' cdm_table,
+		COALESCE(vd.visit_detail_concept_id, 0) visit_detail_concept_id,
+		COUNT(*) record_count
+	FROM 
+		cdm.procedure_occurrence po
+	LEFT JOIN 
+		cdm.visit_detail vd 
+	ON 
+		po.visit_occurrence_id = vd.visit_occurrence_id
+	GROUP BY 
+		vd.visit_detail_concept_id
+
+	UNION
+
+	SELECT 
+		'measurement' cdm_table,
+		COALESCE(vd.visit_detail_concept_id, 0) visit_detail_concept_id,
+		COUNT(*) record_count
+	FROM 
+		cdm.measurement m
+	LEFT JOIN 
+		cdm.visit_detail vd 
+	ON 
+		m.visit_occurrence_id = vd.visit_occurrence_id
+	GROUP BY 
+		vd.visit_detail_concept_id
+
+	UNION
+
+	SELECT 
+		'observation' cdm_table,
+		COALESCE(vd.visit_detail_concept_id, 0) visit_detail_concept_id,
+		COUNT(*) record_count
+	FROM 
+		cdm.observation o
+	LEFT JOIN 
+		cdm.visit_detail vd 
+	ON 
+		o.visit_occurrence_id = vd.visit_occurrence_id
+	GROUP BY 
+		vd.visit_detail_concept_id
+
+	) v
+
+R version:
+R version 4.1.2 (2021-11-01)
+
+Platform:
+x86_64-pc-linux-gnu
+
+Attached base packages:
+- stats
+- graphics
+- grDevices
+- utils
+- datasets
+- methods
+- base
+
+Other attached packages:
+- Achilles (1.6.7)
+- ETLSyntheaBuilder (0.1.0)
+- DatabaseConnector (4.0.2)

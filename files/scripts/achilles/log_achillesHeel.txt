@@ -1,0 +1,4 @@
+2021-11-05 15:17:59	[Main thread]	INFO	Achilles	achillesHeel	Beginning single-threaded execution
+2021-11-05 15:17:59	[Main thread]	INFO	Achilles	achillesHeel	Generated parallel Heels
+2021-11-05 15:18:00	[Main thread]	INFO	Achilles	achillesHeel	Merged scratch Heel tables into staging tables
+2021-11-05 15:18:00	[Main thread]	INFO	Achilles	achillesHeel	All Achilles SQL scripts can be found in folder: ~/scripts/achilles/achillesHeel.sql

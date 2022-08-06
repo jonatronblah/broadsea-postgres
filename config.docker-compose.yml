@@ -2,16 +2,26 @@ version: '3.8'
 
 services:
 
+  broadsea-methods-library:
+    build:
+      context: .
+    env_file:
+      - ./.env
+    ports:
+      - "8787:8787"
+      - "6311:6311"
+    volumes:
+      - ./files:/home/rstudio
+
   db:
     image: postgres:13.3-alpine
+    shm_size: 1g
     env_file:
       - ./.env
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      - ./files/scripts:/scripts
 
-  rutils:
-    volumes:
-      - ./scripts:/usr/scripts
   
 volumes:
   postgres_data:

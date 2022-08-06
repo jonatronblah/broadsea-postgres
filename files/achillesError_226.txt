@@ -1,0 +1,67 @@
+DBMS:
+postgresql
+
+Error:
+org.postgresql.util.PSQLException: ERROR: could not resize shared memory segment "/PostgreSQL.489889978" to 8388608 bytes: No space left on device
+
+SQL:
+CREATE TABLE ohdsi.tmpach_226
+ AS
+SELECT
+226 as analysis_id, 
+	CAST(v.visit_concept_id AS VARCHAR(255)) as stratum_1,
+	v.cdm_table as stratum_2,
+	cast(null as varchar(255)) as stratum_3, cast(null as varchar(255)) as stratum_4, cast(null as varchar(255)) as stratum_5,
+	v.record_count as count_value
+
+FROM
+(
+  select 'drug_exposure' cdm_table, coalesce(visit_concept_id,0) visit_concept_id, count(*) record_count
+  from cdm.drug_exposure t
+  left join cdm.visit_occurrence v on t.visit_occurrence_id = v.visit_occurrence_id
+  group by visit_concept_id
+  union
+  select 'condition_occurrence' cdm_table, coalesce(visit_concept_id,0) visit_concept_id, count(*) record_count
+  from cdm.condition_occurrence t
+  left join cdm.visit_occurrence v on t.visit_occurrence_id = v.visit_occurrence_id
+  group by visit_concept_id
+  union
+  select 'device_exposure' cdm_table, coalesce(visit_concept_id,0) visit_concept_id, count(*) record_count
+  from cdm.device_exposure t
+  left join cdm.visit_occurrence v on t.visit_occurrence_id = v.visit_occurrence_id
+  group by visit_concept_id
+  union
+  select 'procedure_occurrence' cdm_table, coalesce(visit_concept_id,0) visit_concept_id, count(*) record_count
+  from cdm.procedure_occurrence t
+  left join cdm.visit_occurrence v on t.visit_occurrence_id = v.visit_occurrence_id
+  group by visit_concept_id
+  union
+  select 'measurement' cdm_table, coalesce(visit_concept_id,0) visit_concept_id, count(*) record_count
+  from cdm.measurement t
+  left join cdm.visit_occurrence v on t.visit_occurrence_id = v.visit_occurrence_id
+  group by visit_concept_id
+  union
+  select 'observation' cdm_table, coalesce(visit_concept_id,0) visit_concept_id, count(*) record_count
+  from cdm.observation t
+  left join cdm.visit_occurrence v on t.visit_occurrence_id = v.visit_occurrence_id
+  group by visit_concept_id
+) v
+
+
+R version:
+R version 4.1.2 (2021-11-01)
+
+Platform:
+x86_64-pc-linux-gnu
+
+Attached base packages:
+- stats
+- graphics
+- grDevices
+- utils
+- datasets
+- methods
+- base
+
+Other attached packages:
+- snow (0.4-4)

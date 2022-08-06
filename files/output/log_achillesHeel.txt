@@ -1,0 +1,9 @@
+2021-11-05 15:32:05	[Main thread]	INFO	Achilles	achillesHeel	Beginning multi-threaded execution
+2021-11-05 15:32:05	[Main thread]	INFO	Achilles	achillesHeel	Executing Achilles Heel. This could take a while
+2021-11-05 15:32:05	[Main thread]	INFO	Achilles	achillesHeel	Dropping scratch Heel tables from schema ohdsi
+2021-11-05 15:32:08	[Main thread]	INFO	Achilles	achillesHeel	Temporary Heel tables removed from schema ohdsi
+2021-11-05 15:32:22	[Main thread]	INFO	Achilles	achillesHeel	Generated parallel Heels
+2021-11-05 15:32:22	[Main thread]	INFO	Achilles	achillesHeel	Merged scratch Heel tables into staging tables
+2021-11-05 15:32:23	[Main thread]	INFO	Achilles	achillesHeel	Dropping scratch Heel tables from schema ohdsi
+2021-11-05 15:32:26	[Main thread]	INFO	Achilles	achillesHeel	Temporary Heel tables removed from schema ohdsi
+2021-11-05 15:32:26	[Main thread]	INFO	Achilles	achillesHeel	Done. Achilles Heel results can now be found in ohdsi
